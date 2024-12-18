@@ -1,8 +1,9 @@
+package com.thedeafcreeper;
+
 import group.aelysium.declarative_yaml.DeclarativeYAML;
 import group.aelysium.declarative_yaml.annotations.Comment;
 import group.aelysium.declarative_yaml.annotations.Config;
 import group.aelysium.declarative_yaml.annotations.Node;
-import group.aelysium.rustyconnector.serverCommon.DefaultConfig;
 
 import java.io.IOException;
 

@@ -92,7 +92,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass> <!--Change this to your main class-->
+                            <mainClass>com.thedeafcreeper.Main</mainClass> <!--Change this to your main class-->
                         </manifest>
                     </archive>
                     <descriptorRefs>

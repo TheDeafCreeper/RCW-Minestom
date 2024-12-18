@@ -1,5 +1,6 @@
+package com.thedeafcreeper;
+
 import group.aelysium.rustyconnector.MinestomRustyConnector;
-import group.aelysium.rustyconnector.RustyConnector;
 import group.aelysium.rustyconnector.serverCommon.DefaultConfig;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
