@@ -8,6 +8,7 @@ import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.extras.velocity.VelocityProxy;
+import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
@@ -18,6 +19,7 @@ import java.util.Objects;
 public class Main {
 
     static ServerProperties serverProperties;
+    public static Instance instance;
 
     public static void main(String[] args) {
 
@@ -52,7 +54,10 @@ public class Main {
 
         if (!Objects.equals(serverProperties.velocitySecret, "")) VelocityProxy.enable(serverProperties.velocitySecret);
 
-        new MinestomRustyConnector(instanceManager.getInstance(instanceContainer.getUniqueId()));
+        instance = instanceManager.getInstance(instanceContainer.getUniqueId());
+
+        // Startup RustyConnector
+        new MinestomRustyConnector(instance);
     }
 
     private static int getPort() {

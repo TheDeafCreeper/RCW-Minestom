@@ -59,7 +59,5 @@ public class MinestomServerAdapter extends ServerAdapter {
     }
 
     @Override
-    public void log(@NotNull Component message) {
-        (new ConsoleSender()).sendMessage(message);
-    }
+    public void log(@NotNull Component message) { MinecraftServer.LOGGER.info(message); }
 }

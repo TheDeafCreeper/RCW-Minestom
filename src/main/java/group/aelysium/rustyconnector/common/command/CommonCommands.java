@@ -25,25 +25,6 @@ import static net.kyori.adventure.text.Component.text;
 @Command("rc")
 @Permission("rustyconnector.commands.rc")
 public class CommonCommands {
-
-    @Command("")
-    public void hizfafjjszjivcys(Client<?> client) {
-        client.send(RC.Lang("rustyconnector-kernelDetails").generate(RC.Kernel()));
-    }
-
-    @Command("reload")
-    public void nglbwcmuzzxvjaon(Client<?> client) {
-        try {
-            client.send(RC.Lang("rustyconnector-waiting").generate());
-            Particle.Flux<?> particle = RustyConnector.Kernel();
-            particle.reignite();
-            particle.observe();
-            client.send(RC.Lang("rustyconnector-finished").generate());
-        } catch (Exception e) {
-            RC.Error(Error.from(e).urgent(true));
-        }
-    }
-
     @Command("plugin")
     @Command("plugins")
     public void nglbwcmuvchdjaon(Client<?> client) {
@@ -180,91 +161,6 @@ public class CommonCommands {
         }
 
         return current.get();
-    }
-
-    @Command("error")
-    @Command("errors")
-    public void nglbwzmxvchdjaon() {
-        RC.Adapter().log(
-                Component.join(
-                        CommonLang.newlines(),
-                        Component.empty(),
-                        RC.Lang().asciiAlphabet().generate("Errors").color(NamedTextColor.BLUE),
-                        Component.empty(),
-                        (
-                            RC.Errors().fetchAll().isEmpty() ?
-                                text("There are no errors to show.", NamedTextColor.DARK_GRAY)
-                            :
-                                Component.join(
-                                    CommonLang.newlines(),
-                                    RC.Errors().fetchAll().stream().map(e->Component.join(
-                                            CommonLang.newlines(),
-                                            text("------------------------------------------------------", NamedTextColor.DARK_GRAY),
-                                            e.toComponent()
-                                    )).toList()
-                                )
-                        ),
-                        Component.empty()
-                )
-        );
-    }
-
-    @Command("error <uuid>")
-    @Command("errors <uuid>")
-    public void nglbwzmxvchdjaon(Client<?> client, String uuid) {
-        try {
-            UUID errorUUID;
-            try {
-                errorUUID = UUID.fromString(uuid);
-            } catch (IllegalArgumentException e) {
-                client.send(text("Please provide a valid UUID.", NamedTextColor.BLUE));
-                return;
-            }
-
-            Error error = RC.Errors().fetch(errorUUID)
-                    .orElseThrow(()->new NoSuchElementException("No Error entry exists with the uuid ["+uuid+"]"));
-            if(error.throwable() == null) client.send(text("The error ["+uuid+"] doesn't have a throwable to inspect.", NamedTextColor.BLUE));
-            RC.Adapter().log(RC.Lang("rustyconnector-exception").generate(error.throwable()));
-        } catch (Exception e) {
-            RC.Error(Error.from(e).urgent(true));
-        }
-    }
-
-    @Command("packet")
-    @Command("packets")
-    public void yckarhhyoblbmbdl(Client<?> client) {
-        try {
-            List<Packet> messages = RC.MagicLink().packetCache().packets();
-            client.send(RC.Lang("rustyconnector-packets").generate(messages));
-        } catch (Exception e) {
-            RC.Error(Error.from(e).urgent(true));
-        }
-    }
-
-    @Command("packet clear")
-    @Command("packets clear")
-    public void wuifhmwefmhuidid(Client<?> client) {
-        try {
-            client.send(RC.Lang("rustyconnector-waiting").generate());
-            RC.MagicLink().packetCache().empty();
-            client.send(RC.Lang("rustyconnector-finished").generate());
-        } catch (Exception e) {
-            RC.Error(Error.from(e).urgent(true));
-        }
-    }
-
-    @Command("packet <id>")
-    @Command("packets <id>")
-    public void nidbtmkngikxlzyo(Client<?> client, String id) {
-        try {
-            client.send(RC.Lang("rustyconnector-packetDetails").generate(
-                    RC.MagicLink().packetCache().find(NanoID.fromString(id)).orElseThrow(
-                            ()->new NoSuchElementException("Unable to find packet with id "+id)
-                    )
-            ));
-        } catch (Exception e) {
-            RC.Error(Error.from(e).urgent(true));
-        }
     }
 
     @Command("send")

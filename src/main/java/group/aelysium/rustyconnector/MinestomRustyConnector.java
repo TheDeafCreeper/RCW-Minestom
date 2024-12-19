@@ -1,5 +1,6 @@
 package group.aelysium.rustyconnector;
 
+import com.thedeafcreeper.commands.rcCommands.RC;
 import group.aelysium.declarative_yaml.DeclarativeYAML;
 import group.aelysium.rustyconnector.common.config.GitOpsConfig;
 import group.aelysium.rustyconnector.common.config.PrivateKeyConfig;
@@ -9,16 +10,12 @@ import group.aelysium.rustyconnector.serverCommon.DefaultConfig;
 import group.aelysium.rustyconnector.serverCommon.ServerLang;
 import group.aelysium.rustyconnector.server.ServerKernel;
 import group.aelysium.rustyconnector.server.magic_link.WebSocketMagicLink;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.adventure.audience.Audiences;
 import net.minestom.server.instance.Instance;
-import org.incendo.cloud.SenderMapper;
-import org.incendo.cloud.execution.ExecutionCoordinator;
 
 public final class MinestomRustyConnector {
     Instance server;
@@ -61,30 +58,19 @@ public final class MinestomRustyConnector {
                     try {
                         kernel.fetchPlugin("LangLibrary").onStart(l -> ((LangLibrary) l).registerLangNodes(ServerLang.class));
                     } catch (Exception e) {
-                        RC.Error(Error.from(e));
+                        group.aelysium.rustyconnector.RC.Error(Error.from(e));
                     }
                     try {
                         kernel.fetchPlugin("MagicLink").onStart(l -> ((WebSocketMagicLink) l).connect());
                     } catch (Exception e) {
-                        RC.Error(Error.from(e));
+                        group.aelysium.rustyconnector.RC.Error(Error.from(e));
                     }
                 });
             });
 
-//            LegacyPaperCommandManager<MinestomClient> commandManager = new LegacyPaperCommandManager<>(
-//                    this,
-//                    ExecutionCoordinator.asyncCoordinator(),
-//                    SenderMapper.create(
-//                            sender -> new MinestomClient(sender),
-//                            client -> client.toSender()
-//                    )
-//            );
-//            commandManager.registerCommandPreProcessor(new ValidateClient<>());
-//
-//            AnnotationParser<PaperClient> annotationParser = new AnnotationParser<>(commandManager, PaperClient.class);
-//            annotationParser.parse(new CommonCommands());
-//            annotationParser.parse(new CommandRusty());
-            RC.Lang("rustyconnector-wordmark").send(RC.Kernel().version());
+            MinecraftServer.getCommandManager().register(new RC());
+
+            group.aelysium.rustyconnector.RC.Lang("rustyconnector-wordmark").send(group.aelysium.rustyconnector.RC.Kernel().version());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
